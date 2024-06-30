@@ -9,7 +9,7 @@ import CustomButton from '@/components/CustomButton';
 
 export default function App() {
   return (
-    <SafeAreaView className='h-full bg-gray-100'>
+    <SafeAreaView className='h-full'>
       <ScrollView contentContainerStyle={{ height: '100%' }}>
         <View className='w-full justify-center items-center h-full px-4'>
           <Text className='text-4xl text-secondary font-black'>Money Minder</Text>
@@ -23,7 +23,7 @@ export default function App() {
           </Text>
 
           <CustomButton
-            title='Continue With User'
+            title='Continue With Email'
             handlePress={() => router.push('/signIn')}
             containerStyle='w-full mt-20'
           />
