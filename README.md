@@ -1,50 +1,104 @@
-# Welcome to your Expo app 👋
+# Money Minder — Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Personal finance app built with **Expo + React Native**. Connects to a local REST backend.
 
-## Get started
+## Tech Stack
 
-1. Install dependencies
+| Layer | Library |
+|---|---|
+| Framework | Expo SDK 54 / React Native 0.81 |
+| Navigation | Expo Router 6 (file-based) |
+| State (server) | TanStack React Query |
+| State (client) | Zustand |
+| HTTP | Axios (with silent token refresh) |
+| Auth storage | expo-secure-store |
+| Charts | react-native-svg |
+| Animations | react-native-reanimated |
+| Gestures | react-native-gesture-handler |
 
-   ```bash
-   npm install
-   ```
+## Prerequisites
 
-2. Start the app
+- Node.js >= 18
+- Expo CLI (`npm i -g expo-cli`)
+- Expo Go app on your phone **or** an iOS/Android emulator
+- Backend running (default: `http://localhost:3000`)
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Installation
 
 ```bash
-npm run reset-project
+# 1. Clone and enter the project
+cd money-minder-app
+
+# 2. Install dependencies
+npm install
+
+# 3. Configure environment
+cp .env.example .env
+# Edit .env and set EXPO_PUBLIC_API_URL
+
+# 4. Start the dev server
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Environment Variables
 
-## Learn more
+Create a `.env` file in the project root (copy from `.env.example`):
 
-To learn more about developing your project with Expo, look at the following resources:
+```env
+# URL of your backend API
+EXPO_PUBLIC_API_URL=http://localhost:3000
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+> **Physical device tip:** Replace `localhost` with your machine's LAN IP address
+> (e.g., `http://192.168.1.100:3000`) so that Expo Go can reach the backend.
 
-## Join the community
+## Project Structure
 
-Join our community of developers creating universal apps.
+```
+app/
+  (auth)/           Login and Register screens
+  (tabs)/           Main tab screens:
+    index           Dashboard
+    transactions    Transaction list + filters
+    budgets         Budget management
+    goals           Savings goals
+    reports         Charts and reports
+    accounts        Account management
+  transaction/
+    new             New transaction form (modal)
+    [id]            Transaction detail / delete (modal)
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+components/ui/      Reusable design system components
+constants/
+  colors.ts         Design token palette
+  types.ts          All TypeScript interfaces
+hooks/              React Query hooks for each resource
+services/api.ts     Axios instance with JWT interceptors
+store/
+  authStore.ts      Zustand auth store (tokens + user)
+  financeStore.ts   Zustand finance store (accounts, categories, filters)
+```
+
+## Features
+
+- Dark mode first design
+- JWT authentication with automatic silent refresh
+- Secure token storage (Keychain / Keystore)
+- Dashboard with balance, account cards, and recent transactions
+- Infinite scroll transaction list with swipe-to-delete
+- Filters by type, account, and category (persisted in store)
+- Budget tracking with color-coded progress bars
+- Savings goals with contribution workflow
+- Reports with bar chart and category breakdown
+- Pull-to-refresh on all screens
+- Skeleton loaders (no generic spinners)
+- Haptic feedback on key actions
+
+## Available Scripts
+
+```bash
+npx expo start          # Start dev server
+npx expo start --ios    # Open iOS simulator
+npx expo start --android # Open Android emulator
+npx expo lint           # Run ESLint
+```
